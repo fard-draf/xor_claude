@@ -8,6 +8,8 @@ mod watcher;
 use domain::Key;
 use sha2::{Digest, Sha256};
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
 use tokio::sync::mpsc;
 
 const WATCH_DIR: &str = "./notes";
