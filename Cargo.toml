@@ -1,9 +1,15 @@
 [package]
 name = "xor_claude"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
 rand_core = "0.9.3"
 secrecy = "0.10.3"
 thiserror = "2.0.12"
+zstd = "0.13"
+notify = "8.0"
+tokio = { version = "1.40", features = ["full"] }
+git2 = "0.20"
+sha2 = "0.10"
+ctrlc = "3.4.7"

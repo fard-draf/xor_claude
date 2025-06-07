@@ -8,25 +8,17 @@ pub enum AppError {
     #[error("Empty file")]
     EmptyFile,
 
-    #[error("Unvalid format")]
+    #[error("Invalid format")]
     UnvalidFormat,
 
-    #[error("Unvalid Key")]
+    #[error("Invalid Key: must be exactly 25 ASCII characters")]
     UnvalidKey,
-    // #[error("Unvalid format")]
-    // UnvalidFormat,
 
-    // #[error("Empty file")]
-    // EmptyFile,
+    #[error("Compression failed")]
+    CompressionError,
 
-    // #[error("Unvalid format")]
-    // UnvalidFormat,
-
-    // #[error("Empty file")]
-    // EmptyFile,
-
-    // #[error("Unvalid format")]
-    // UnvalidFormat,
+    #[error("Decompression failed")]
+    DecompressionError,
 }
 
 pub type Result<T> = std::result::Result<T, AppError>;

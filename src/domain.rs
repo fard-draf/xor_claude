@@ -1,7 +1,7 @@
 use crate::error::*;
 use secrecy::{
-    ExposeSecret, SecretBox, SecretString,
     zeroize::{Zeroize, ZeroizeOnDrop},
+    ExposeSecret, SecretBox, SecretString,
 };
 
 pub struct Plaintext {
@@ -82,8 +82,8 @@ impl ZeroizeOnDrop for Ciphertext {}
 pub struct Key(SecretBox<[u8]>);
 
 impl Key {
-    fn from_str(key: &str) -> Result<Self> {
-        if key.len() < 5 || key.chars().any(|e| !e.is_alphabetic()) {
+    pub fn from_str(key: &str) -> Result<Self> {
+        if key.len() != 25 || !key.chars().all(|c| c.is_ascii()) {
             return Err(AppError::UnvalidKey);
         }
 
@@ -93,22 +93,8 @@ impl Key {
         Ok(Self(secret_box))
     }
 
-    pub fn from_rand(key: u64) -> Result<Self> {
-        if key < 30 {
-            return Err(AppError::UnvalidKey);
-        }
-
-        let key_bytes = key.to_be_bytes().into();
-        let secret_box = SecretBox::new(key_bytes);
-        Ok(Self(secret_box))
-    }
-
-    fn expose(&self) -> String {
-        self.0.expose_secret().len().to_string()
-    }
-
-    fn length(&self) -> usize {
-        self.expose().len()
+    pub fn as_bytes(&self) -> &[u8] {
+        self.0.expose_secret()
     }
 }
 
@@ -117,3 +103,5 @@ impl Zeroize for Key {
         self.0.zeroize();
     }
 }
+
+impl ZeroizeOnDrop for Key {}
